@@ -5,617 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MATRIX ADMIN</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         @keyframes matrix-rain {
-            0% {
-                transform: translateY(-100%);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(100vh);
-                opacity: 0;
-            }
-        }
-
-        @keyframes glow-pulse {
-            0%, 100% {
-                text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00;
-            }
-            50% {
-                text-shadow: 0 0 20px #00ff00, 0 0 30px #00ff00, 0 0 40px #00cc00;
-            }
-        }
-
-        @keyframes cursor-blink {
-            0%, 49%, 100% {
-                opacity: 1;
-            }
-            50%, 99% {
-                opacity: 0;
-            }
-        }
-
-        @keyframes slide-in {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        body {
-            background: #000000;
-            color: #00ff00;
-            font-family: 'Courier New', monospace;
-            overflow-x: hidden;
-            position: relative;
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .matrix-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #000000;
-            z-index: -2;
-        }
-
-        .matrix-char {
-            position: absolute;
-            color: #00ff00;
-            opacity: 0.1;
-            font-weight: bold;
-            font-size: 14px;
-            animation: matrix-rain linear infinite;
-            pointer-events: none;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 1;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding: 30px 0;
-            border-bottom: 2px solid #00ff00;
-            position: relative;
-            animation: slide-in 0.8s ease-out;
-        }
-
-        .header::before {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #00ff00, transparent);
-            animation: glow-pulse 2s infinite;
-        }
-
-        .header h1 {
-            font-size: 32px;
-            font-weight: bold;
-            color: #00ff00;
-            text-shadow: 0 0 10px #00ff00;
-            letter-spacing: 3px;
-            animation: glow-pulse 3s infinite;
-            margin-bottom: 5px;
-        }
-
-        .header p {
-            font-size: 11px;
-            color: #00aa00;
-            opacity: 0.7;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        .panel {
-            background: linear-gradient(135deg, rgba(0, 30, 0, 0.8), rgba(0, 50, 0, 0.6));
-            border: 2px solid #00ff00;
-            border-radius: 5px;
-            padding: 30px;
-            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3), inset 0 0 20px rgba(0, 255, 0, 0.1);
-            position: relative;
-            overflow: hidden;
-            margin-bottom: 25px;
-            animation: slide-in 0.8s ease-out both;
-        }
-
-        .panel:nth-child(2) { animation-delay: 0.1s; }
-        .panel:nth-child(3) { animation-delay: 0.2s; }
-        .panel:nth-child(4) { animation-delay: 0.3s; }
-
-        .panel::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #00ff00, transparent);
-            animation: glow-pulse 2s infinite;
-        }
-
-        .panel h2 {
-            font-size: 16px;
-            color: #00ff00;
-            text-shadow: 0 0 10px #00ff00;
-            letter-spacing: 2px;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 1px dashed #00aa00;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            color: #00ff00;
-            font-size: 12px;
-            margin-bottom: 8px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            opacity: 0.8;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px;
-            background: rgba(0, 20, 0, 0.9);
-            border: 1px solid #00ff00;
-            color: #00ff00;
-            font-family: 'Courier New', monospace;
-            font-size: 13px;
-            border-radius: 3px;
-            transition: all 0.3s;
-            box-shadow: inset 0 0 10px rgba(0, 255, 0, 0.1);
-        }
-
-        input:focus {
-            outline: none;
-            border-color: #00ff00;
-            box-shadow: 0 0 10px rgba(0, 255, 0, 0.5), inset 0 0 10px rgba(0, 255, 0, 0.2);
-            text-shadow: 0 0 5px #00ff00;
-        }
-
-        input::placeholder {
-            color: #006600;
-            opacity: 0.6;
-        }
-
-        button {
-            width: 100%;
-            padding: 12px;
-            background: rgba(0, 255, 0, 0.1);
-            border: 1px solid #00ff00;
-            color: #00ff00;
-            font-family: 'Courier New', monospace;
-            font-size: 13px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            border-radius: 3px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 255, 0, 0.2);
-            transition: left 0.3s;
-            z-index: -1;
-        }
-
-        button:hover::before {
-            left: 100%;
-        }
-
-        button:hover {
-            box-shadow: 0 0 15px rgba(0, 255, 0, 0.7);
-            text-shadow: 0 0 10px #00ff00;
-        }
-
-        button:active {
-            transform: scale(0.98);
-        }
-
-        .message {
-            padding: 14px;
-            border-radius: 3px;
-            margin-bottom: 20px;
-            font-size: 12px;
-            border-left: 3px solid;
-            animation: glow-pulse 2s infinite;
-            min-height: 20px;
-        }
-
-        .success {
-            background: rgba(0, 255, 0, 0.1);
-            color: #00ff00;
-            border-left-color: #00ff00;
-            box-shadow: inset 0 0 10px rgba(0, 255, 0, 0.2);
-        }
-
-        .error {
-            background: rgba(255, 0, 0, 0.1);
-            color: #ff4444;
-            border-left-color: #ff4444;
-            box-shadow: inset 0 0 10px rgba(255, 0, 0, 0.2);
-        }
-
-        .info {
-            background: rgba(0, 150, 255, 0.1);
-            color: #00bbff;
-            border-left-color: #00bbff;
-            box-shadow: inset 0 0 10px rgba(0, 150, 255, 0.2);
-        }
-
-        .users-list {
-            margin-top: 20px;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-
-        .users-list::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .users-list::-webkit-scrollbar-track {
-            background: rgba(0, 255, 0, 0.1);
-            border-radius: 10px;
-        }
-
-        .users-list::-webkit-scrollbar-thumb {
-            background: #00ff00;
-            border-radius: 10px;
-        }
-
-        .users-list::-webkit-scrollbar-thumb:hover {
-            background: #00cc00;
-        }
-
-        .user-item {
-            background: rgba(0, 50, 0, 0.5);
-            border: 1px solid rgba(0, 255, 0, 0.3);
-            padding: 12px;
-            border-radius: 3px;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.3s;
-            font-size: 12px;
-        }
-
-        .user-item:hover {
-            background: rgba(0, 100, 0, 0.5);
-            border-color: #00ff00;
-            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
-        }
-
-        .user-info {
-            flex: 1;
-        }
-
-        .username {
-            font-weight: bold;
-            color: #00ff00;
-            margin-bottom: 4px;
-            letter-spacing: 1px;
-        }
-
-        .password-display {
-            color: #00aa00;
-            font-size: 11px;
-            word-break: break-all;
-            opacity: 0.7;
-        }
-
-        .delete-btn {
-            background: rgba(255, 0, 0, 0.2);
-            border-color: #ff4444;
-            color: #ff4444;
-            padding: 6px 12px;
-            font-size: 11px;
-            width: auto;
-            margin-left: 10px;
-        }
-
-        .delete-btn:hover {
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.7);
-            text-shadow: 0 0 10px #ff4444;
-        }
-
-        .empty-state {
-            color: #006600;
-            text-align: center;
-            padding: 20px;
-            font-size: 12px;
-            opacity: 0.7;
-        }
-
-        .system-status {
-            font-size: 10px;
-            color: #006600;
-            opacity: 0.6;
-            letter-spacing: 1px;
-            line-height: 1.8;
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px dashed #00aa00;
-        }
-
-        .footer {
-            text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px dashed #00aa00;
-        }
-
-        .back-link {
-            display: inline-block;
-            color: #00ff00;
-            text-decoration: none;
-            font-size: 12px;
-            letter-spacing: 1px;
-            transition: all 0.3s;
-            padding: 8px 15px;
-            border: 1px solid rgba(0, 255, 0, 0.3);
-            border-radius: 3px;
-            margin: 0 5px;
-        }
-
-        .back-link:hover {
-            text-shadow: 0 0 10px #00ff00;
-            border-color: #00ff00;
-            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
-        }
-
-        .logout-link {
-            background: rgba(255, 0, 0, 0.2);
-            border-color: #ff4444 !important;
-            color: #ff4444;
-        }
-
-        .logout-link:hover {
-            text-shadow: 0 0 10px #ff4444 !important;
-            border-color: #ff4444 !important;
-            box-shadow: 0 0 10px rgba(255, 0, 0, 0.3) !important;
-        }
-
-        /* MODAL */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            animation: fadeIn 0.3s;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .modal.active {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-content {
-            background: linear-gradient(135deg, rgba(0, 30, 0, 0.95), rgba(0, 50, 0, 0.8));
-            border: 2px solid #00ff00;
-            border-radius: 5px;
-            padding: 40px;
-            max-width: 500px;
-            width: 90%;
-            box-shadow: 0 0 30px rgba(0, 255, 0, 0.5);
-            position: relative;
-            animation: slideUp 0.4s ease-out;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .modal-content::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #00ff00, transparent);
-            animation: glow-pulse 2s infinite;
-        }
-
-        .modal h2 {
-            font-size: 18px;
-            color: #00ff00;
-            margin-bottom: 10px;
-            letter-spacing: 1px;
-            text-shadow: 0 0 10px #00ff00;
-        }
-
-        .modal p {
-            font-size: 12px;
-            color: #00aa00;
-            margin-bottom: 25px;
-            opacity: 0.8;
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            background: none;
-            border: none;
-            color: #00ff00;
-            font-size: 28px;
-            cursor: pointer;
-            width: auto;
-            padding: 0;
-            transition: all 0.3s;
-        }
-
-        .close-btn:hover {
-            text-shadow: 0 0 10px #00ff00;
-            transform: scale(1.2);
-        }
-
-        /* RECHARGE BANKS GRID */
-        #rechargebanksGrid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        #rechargebanksGrid button {
-            padding: 15px !important;
-            text-align: center !important;
-            font-size: 11px !important;
-            margin: 0 !important;
-        }
-
-        .bank-icon {
-            font-size: 20px;
-            display: block;
-            margin-bottom: 8px;
-        }
-
-        .phone-input-group {
-            display: flex;
-            gap: 10px;
-        }
-
-        .country-code {
-            background: rgba(0, 20, 0, 0.9);
-            border: 1px solid #00ff00;
-            color: #00ff00;
-            padding: 12px;
-            border-radius: 3px;
-            width: 70px;
-            font-family: 'Courier New', monospace;
-            font-size: 13px;
-            text-align: center;
-        }
-
-        .otp-code-display {
-            background: rgba(0, 50, 0, 0.7);
-            border: 2px solid #00ff00;
-            border-radius: 5px;
-            padding: 25px;
-            text-align: center;
-            margin-bottom: 20px;
-            min-height: 80px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
-        }
-
-        .otp-code {
-            font-size: 36px;
-            font-weight: bold;
-            color: #00ff00;
-            letter-spacing: 5px;
-            text-shadow: 0 0 10px #00ff00;
-            font-family: 'Courier New', monospace;
-        }
-
-        .otp-loading {
-            display: none;
-            text-align: center;
-            font-size: 13px;
-            color: #00aa00;
-            margin-bottom: 20px;
-        }
-
-        .spinner {
-            display: inline-block;
-            width: 12px;
-            height: 12px;
-            border: 2px solid #00aa00;
-            border-top: 2px solid #00ff00;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            margin-right: 8px;
-            vertical-align: middle;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .timer {
-            text-align: center;
-            font-size: 12px;
-            color: #00ff00;
-            margin-top: 15px;
-            opacity: 0.8;
-        }
-
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 24px;
-            }
-
-            .panel {
-                padding: 25px;
-            }
-
-            #rechargebanksGrid {
-                grid-template-columns: 1fr;
-            }
-        }
+            0% { transform: translateY(-100%); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
+
+        @keyframes glow { 0%, 100% { text-shadow: 0 0 5px #00ff00; } 50% { text-shadow: 0 0 20px #00ff00; } }
+
+        body { background: #000000; color: #00ff00; font-family: 'Courier New', monospace; min-height: 100vh; padding: 20px; }
+        .matrix-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000000; z-index: -2; }
+        .matrix-char { position: absolute; color: #00ff00; opacity: 0.1; animation: matrix-rain 15s linear infinite; pointer-events: none; }
+        .container { max-width: 1200px; margin: 0 auto; position: relative; z-index: 1; }
+        .header { text-align: center; margin-bottom: 30px; padding: 30px 0; border-bottom: 2px solid #00ff00; }
+        .header h1 { font-size: 32px; color: #00ff00; text-shadow: 0 0 10px #00ff00; letter-spacing: 3px; animation: glow 3s infinite; }
+        .dashboard { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-bottom: 25px; }
+        .panel { background: linear-gradient(135deg, rgba(0, 30, 0, 0.8), rgba(0, 50, 0, 0.6)); border: 2px solid #00ff00; border-radius: 5px; padding: 25px; box-shadow: 0 0 20px rgba(0, 255, 0, 0.3); }
+        .panel h2 { font-size: 14px; color: #00ff00; text-shadow: 0 0 10px #00ff00; letter-spacing: 2px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px dashed #00aa00; }
+        .panel-wide { grid-column: 1 / -1; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; color: #00ff00; font-size: 11px; margin-bottom: 6px; text-transform: uppercase; }
+        input, select { width: 100%; padding: 10px; background: rgba(0, 20, 0, 0.9); border: 1px solid #00ff00; color: #00ff00; font-family: 'Courier New', monospace; font-size: 12px; border-radius: 3px; }
+        input:focus, select:focus { outline: none; box-shadow: 0 0 10px rgba(0, 255, 0, 0.5); }
+        button { width: 100%; padding: 10px; background: rgba(0, 255, 0, 0.1); border: 1px solid #00ff00; color: #00ff00; font-family: 'Courier New', monospace; font-size: 12px; font-weight: bold; cursor: pointer; transition: all 0.3s; letter-spacing: 1px; text-transform: uppercase; border-radius: 3px; margin-bottom: 10px; }
+        button:hover { box-shadow: 0 0 15px rgba(0, 255, 0, 0.7); }
+        .users-list { max-height: 400px; overflow-y: auto; }
+        .user-card { background: rgba(0, 50, 0, 0.5); border: 1px solid rgba(0, 255, 0, 0.3); padding: 12px; border-radius: 3px; margin-bottom: 10px; font-size: 11px; }
+        .user-name { font-weight: bold; color: #00ff00; margin-bottom: 4px; }
+        .user-balance { color: #00aa00; margin-bottom: 8px; }
+        .user-actions { display: flex; gap: 8px; }
+        .user-actions button { flex: 1; padding: 6px; font-size: 10px; margin: 0; }
+        .footer { text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px dashed #00aa00; }
+        .back-link { display: inline-block; margin: 0 5px; padding: 10px 20px; background: rgba(0, 255, 0, 0.1); border: 1px solid #00ff00; color: #00ff00; text-decoration: none; border-radius: 3px; font-size: 12px; text-transform: uppercase; transition: all 0.3s; cursor: pointer; }
+        .back-link:hover { box-shadow: 0 0 15px rgba(0, 255, 0, 0.7); }
+        .logout-link { background: rgba(255, 0, 0, 0.2) !important; border-color: #ff4444 !important; color: #ff4444 !important; }
+        .message { padding: 12px; border-radius: 3px; margin-bottom: 15px; font-size: 11px; border-left: 3px solid; }
+        .success { background: rgba(0, 255, 0, 0.1); color: #00ff00; border-left-color: #00ff00; }
+        .error { background: rgba(255, 0, 0, 0.1); color: #ff4444; border-left-color: #ff4444; }
     </style>
 </head>
 <body>
@@ -623,147 +52,64 @@
 
     <div class="container">
         <div class="header">
-            <h1>> ADMIN<span style="display: inline-block; width: 2px; height: 1em; background: #00ff00; margin-left: 5px; animation: cursor-blink 1s infinite;"></span></h1>
-            <p>PANEL DE CONTROL DEL SISTEMA</p>
+            <h1>> ADMIN PANEL</h1>
+            <p style="font-size: 11px; color: #00aa00; letter-spacing: 1px; text-transform: uppercase;">Gestión de Usuarios y Recargas</p>
         </div>
 
-        <!-- CREAR USUARIOS -->
-        <div class="panel">
-            <h2>> CREAR NUEVO ACCESO</h2>
-
-            <div id="adminMessage"></div>
-
-            <form id="createUserForm">
-                <div class="form-group">
-                    <label for="newUser">Nuevo Usuario:</label>
-                    <input type="text" id="newUser" placeholder="Nombre de usuario" required autocomplete="off">
-                </div>
-
-                <div class="form-group">
-                    <label for="newPass">Contraseña:</label>
-                    <input type="password" id="newPass" placeholder="Contraseña" required autocomplete="off">
-                </div>
-
-                <button type="submit">> CREAR ACCESO</button>
-            </form>
-        </div>
-
-        <!-- USUARIOS ACTIVOS -->
-        <div class="panel">
-            <h2>> USUARIOS ACTIVOS DEL SISTEMA</h2>
-
-            <div class="users-list">
-                <div id="usersList"></div>
+        <div class="dashboard">
+            <!-- LISTA DE USUARIOS -->
+            <div class="panel panel-wide">
+                <h2>> USUARIOS DEL SISTEMA</h2>
+                <div id="adminMessage"></div>
+                <div class="users-list" id="usersList"></div>
             </div>
 
-            <div class="system-status">
-                [USUARIOS TOTALES] <span id="userCount">0</span><br>
-                [MEMÓRIA USADA] <span id="memoryUsage">0</span> KB<br>
-                [ÚLTIMA ACTUALIZACIÓN] <span id="lastMod">--:--:--</span>
-            </div>
-        </div>
+            <!-- RECARGAR SALDO -->
+            <div class="panel">
+                <h2>> RECARGAR SALDO</h2>
+                <div id="rechargeMessage"></div>
 
-        <!-- RECARGAR WALLET -->
-        <div class="panel">
-            <h2>> RECARGAR WALLET</h2>
-
-            <div id="walletMessage"></div>
-
-            <form onsubmit="openBankSelectModal(event)">
                 <div class="form-group">
-                    <label for="walletAmount">Monto a Recargar (COP):</label>
-                    <input type="number" id="walletAmount" placeholder="Ej: 50000" required min="1000">
+                    <label for="selectUser">Selecciona Usuario:</label>
+                    <select id="selectUser">
+                        <option value="">-- Selecciona un usuario --</option>
+                    </select>
                 </div>
-                <button type="submit">> SELECCIONAR BANCO</button>
-            </form>
+
+                <div class="form-group">
+                    <label for="rechargeAmount">Monto USDT:</label>
+                    <input type="number" id="rechargeAmount" placeholder="Ej: 100" min="1">
+                </div>
+
+                <button onclick="rechargeUser()">> RECARGAR</button>
+            </div>
+
+            <!-- CREAR NUEVO USUARIO -->
+            <div class="panel">
+                <h2>> CREAR USUARIO</h2>
+
+                <div class="form-group">
+                    <label for="newUsername">Usuario:</label>
+                    <input type="text" id="newUsername" placeholder="user1a2b">
+                </div>
+
+                <div class="form-group">
+                    <label for="newPassword">Contraseña (4 dígitos):</label>
+                    <input type="text" id="newPassword" placeholder="1234" maxlength="4">
+                </div>
+
+                <button onclick="createNewUser()">> CREAR</button>
+            </div>
         </div>
 
         <div class="footer">
-            <a href="inicio.html" class="back-link">> VOLVER AL INICIO</a>
+            <a href="inicio.html" class="back-link">> VOLVER</a>
             <a href="login.html" class="back-link logout-link">> CERRAR SESIÓN</a>
         </div>
     </div>
 
-    <!-- MODAL SELECCIONAR BANCO -->
-    <div class="modal" id="bankModal">
-        <div class="modal-content">
-            <button class="close-btn" onclick="closeBankModal()">&times;</button>
-
-            <div id="bankSelectScreen">
-                <h2>Seleccionar Banco</h2>
-                <p>Elige tu banco para recargar</p>
-                <div id="rechargebanksGrid"></div>
-            </div>
-
-            <div id="phoneScreen" style="display: none;">
-                <h2 id="selectedBankName"></h2>
-                <p>Ingresa tu número de celular para verificación</p>
-
-                <form onsubmit="sendRechargeOTP(event)">
-                    <div class="form-group">
-                        <label>Número Celular:</label>
-                        <div class="phone-input-group">
-                            <input type="text" class="country-code" value="+57" disabled>
-                            <input type="text" id="rechargePhone" placeholder="Ej: 3001234567" required maxlength="10" inputmode="numeric">
-                        </div>
-                    </div>
-                    <button type="submit">> ENVIAR OTP</button>
-                </form>
-                <button onclick="goBackToBank()" style="background: rgba(255, 100, 0, 0.1); border-color: #ff6400; color: #ff6400; margin-top: 10px;">> ATRÁS</button>
-            </div>
-
-            <div id="otpCodeScreen" style="display: none;">
-                <h2>Código OTP Generado</h2>
-
-                <div class="otp-loading" id="otpLoading">
-                    <span class="spinner"></span>Generando código...
-                </div>
-
-                <div class="otp-code-display">
-                    <div class="otp-code" id="otpCodeDisplay">------</div>
-                </div>
-
-                <div class="timer">
-                    Código válido por: <span id="timerDisplay">60s</span>
-                </div>
-
-                <button onclick="generateNewOTP()">> GENERAR NUEVO CÓDIGO</button>
-                <button onclick="completeRecharge()" style="background: rgba(0, 200, 0, 0.1); border-color: #00ff00; margin-top: 10px;">> COMPLETAR RECARGA</button>
-            </div>
-        </div>
-    </div>
-
     <script>
-        const rechargeBanks = [
-            { name: 'Av Villas', code: 'AVVILLAS', icon: '🏦' },
-            { name: 'Banco Bogotá', code: 'BOGOTA', icon: '🏛️' },
-            { name: 'Occidente', code: 'OCCIDENTE', icon: '💰' },
-            { name: 'Banco Popular', code: 'POPULAR', icon: '👥' },
-            { name: 'Bancolombia', code: 'BANCOLOMBIA', icon: '📊' },
-            { name: 'Finandina', code: 'FINANDINA', icon: '💳' },
-            { name: 'Davibank', code: 'DAVIBANK', icon: '🏢' },
-            { name: 'Servifinanza', code: 'SERVIFINANZA', icon: '⚡' },
-            { name: 'Banco CAJA', code: 'CAJASOCIAL', icon: '🤝' }
-        ];
-
         const DB_KEY = 'matrix_login_db';
-        let selectedBank = null;
-        let otpTimer = null;
-        let otpCode = null;
-        let rechargeAmount = 0;
-
-        // ========== BASE DE DATOS LOCAL ==========
-        function initDB() {
-            if (!localStorage.getItem(DB_KEY)) {
-                const defaultDB = {
-                    users: [
-                        { username: 'admin', password: '1234' },
-                        { username: 'neo', password: 'theone' }
-                    ]
-                };
-                localStorage.setItem(DB_KEY, JSON.stringify(defaultDB));
-            }
-        }
 
         function getDB() {
             return JSON.parse(localStorage.getItem(DB_KEY)) || { users: [] };
@@ -771,232 +117,159 @@
 
         function saveDB(db) {
             localStorage.setItem(DB_KEY, JSON.stringify(db));
-            updateSystemStatus();
             renderUsersList();
+            renderSelectUsers();
         }
 
-        // ========== MENSAJES ==========
-        function showMessage(elementId, message, type) {
+        function initDB() {
+            if (!localStorage.getItem(DB_KEY)) {
+                const defaultDB = {
+                    users: [
+                        { username: 'user1a2b', password: '1234', balance: 0 },
+                        { username: 'user2c3d', password: '5678', balance: 0 },
+                        { username: 'user3e4f', password: '9012', balance: 0 },
+                        { username: 'user4g5h', password: '3456', balance: 0 },
+                        { username: 'user5i6j', password: '7890', balance: 0 },
+                        { username: 'user6k7l', password: '1111', balance: 0 },
+                        { username: 'user7m8n', password: '2222', balance: 0 },
+                        { username: 'user8o9p', password: '3333', balance: 0 },
+                        { username: 'user9q0r', password: '4444', balance: 0 },
+                        { username: 'usera1s2', password: '5555', balance: 0 },
+                        { username: 'userb3t4', password: '6666', balance: 0 },
+                        { username: 'userc5u6', password: '7777', balance: 0 },
+                        { username: 'userd7v8', password: '8888', balance: 0 },
+                        { username: 'usere9w0', password: '9999', balance: 0 },
+                        { username: 'userf1x2', password: '0000', balance: 0 },
+                        { username: 'userg3y4', password: '1357', balance: 0 },
+                        { username: 'userh5z6', password: '2468', balance: 0 },
+                        { username: 'useri7a8', password: '5050', balance: 0 }
+                    ]
+                };
+                localStorage.setItem(DB_KEY, JSON.stringify(defaultDB));
+            }
+        }
+
+        function renderUsersList() {
+            const db = getDB();
+            const list = document.getElementById('usersList');
+            
+            if (!db.users || db.users.length === 0) {
+                list.innerHTML = '<div style="color: #006600; text-align: center; padding: 20px;">[SIN USUARIOS]</div>';
+                return;
+            }
+
+            list.innerHTML = db.users.map(user => `
+                <div class="user-card">
+                    <div class="user-name">👤 ${user.username}</div>
+                    <div class="user-balance">💰 Saldo: ${(user.balance || 0).toFixed(2)} USDT | 🔐 Pass: ${user.password}</div>
+                    <div class="user-actions">
+                        <button onclick="deleteUser('${user.username}')" style="background: rgba(255, 0, 0, 0.2); border-color: #ff4444; color: #ff4444;">>> ELIMINAR</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderSelectUsers() {
+            const db = getDB();
+            const select = document.getElementById('selectUser');
+            select.innerHTML = '<option value="">-- Selecciona un usuario --</option>' + 
+                (db.users || []).map(user => `<option value="${user.username}">${user.username} (${(user.balance || 0).toFixed(2)} USDT)</option>`).join('');
+        }
+
+        function rechargeUser() {
+            const username = document.getElementById('selectUser').value;
+            const amount = parseFloat(document.getElementById('rechargeAmount').value);
+
+            if (!username) {
+                showMessage('rechargeMessage', '❌ Selecciona un usuario', 'error');
+                return;
+            }
+
+            if (!amount || amount <= 0) {
+                showMessage('rechargeMessage', '❌ Ingresa un monto válido', 'error');
+                return;
+            }
+
+            const db = getDB();
+            const user = db.users.find(u => u.username === username);
+
+            if (user) {
+                user.balance = (user.balance || 0) + amount;
+                saveDB(db);
+                showMessage('rechargeMessage', `✅ ${amount} USDT agregados a ${username}`, 'success');
+                document.getElementById('rechargeAmount').value = '';
+                document.getElementById('selectUser').value = '';
+            }
+        }
+
+        function deleteUser(username) {
+            if (!confirm(`¿Eliminar usuario "${username}"?`)) return;
+
+            const db = getDB();
+            db.users = db.users.filter(u => u.username !== username);
+            saveDB(db);
+            showMessage('adminMessage', `✅ Usuario "${username}" eliminado`, 'success');
+        }
+
+        function createNewUser() {
+            const username = document.getElementById('newUsername').value.trim();
+            const password = document.getElementById('newPassword').value.trim();
+
+            if (!username || !password) {
+                showMessage('adminMessage', '❌ Completa todos los campos', 'error');
+                return;
+            }
+
+            if (!/^\d{4}$/.test(password)) {
+                showMessage('adminMessage', '❌ La contraseña debe ser 4 dígitos', 'error');
+                return;
+            }
+
+            const db = getDB();
+            if (db.users.find(u => u.username === username)) {
+                showMessage('adminMessage', '❌ Este usuario ya existe', 'error');
+                return;
+            }
+
+            db.users.push({ username, password, balance: 0 });
+            saveDB(db);
+            showMessage('adminMessage', `✅ Usuario "${username}" creado`, 'success');
+            document.getElementById('newUsername').value = '';
+            document.getElementById('newPassword').value = '';
+        }
+
+        function showMessage(elementId, text, type) {
             const element = document.getElementById(elementId);
             element.className = `message ${type}`;
-            element.innerHTML = `> ${message}`;
-            
+            element.textContent = text;
             setTimeout(() => {
                 element.textContent = '';
                 element.className = '';
             }, 4000);
         }
 
-        // ========== CREAR USUARIO ==========
-        document.getElementById('createUserForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const user = document.getElementById('newUser').value.trim();
-            const pass = document.getElementById('newPass').value;
-            const db = getDB();
-
-            if (!user || !pass) {
-                showMessage('adminMessage', 'ERROR - Usuario y contraseña requeridos', 'error');
-                return;
-            }
-
-            if (db.users.some(u => u.username === user)) {
-                showMessage('adminMessage', `FALLO - El usuario "${user}" ya existe en el sistema`, 'error');
-                return;
-            }
-
-            db.users.push({ username: user, password: pass });
-            saveDB(db);
-
-            showMessage('adminMessage', `ÉXITO - Usuario "${user}" creado correctamente`, 'success');
-            document.getElementById('createUserForm').reset();
-        });
-
-        // ========== ELIMINAR USUARIO ==========
-        function deleteUser(username) {
-            if (confirm(`¿ELIMINAR usuario "${username}" del sistema?`)) {
-                const db = getDB();
-                db.users = db.users.filter(u => u.username !== username);
-                saveDB(db);
-                showMessage('adminMessage', `USUARIO "${username}" eliminado del sistema`, 'info');
-            }
+        function logout() {
+            localStorage.removeItem('currentUser');
+            window.location.href = 'login.html';
         }
 
-        // ========== RENDERIZAR LISTA ==========
-        function renderUsersList() {
-            const db = getDB();
-            const list = document.getElementById('usersList');
-            
-            if (db.users.length === 0) {
-                list.innerHTML = '<div class="empty-state">[SIN USUARIOS EN EL SISTEMA]</div>';
-                return;
-            }
-
-            list.innerHTML = db.users.map(user => `
-                <div class="user-item">
-                    <div class="user-info">
-                        <div class="username">⚡ ${user.username}</div>
-                        <div class="password-display">🔐 ${user.password}</div>
-                    </div>
-                    <button class="delete-btn" onclick="deleteUser('${user.username}')">ELIMINAR</button>
-                </div>
-            `).join('');
-        }
-
-        // ========== ESTADO DEL SISTEMA ==========
-        function updateSystemStatus() {
-            const db = getDB();
-            document.getElementById('userCount').textContent = db.users.length;
-            
-            const dbSize = new Blob([JSON.stringify(db)]).size;
-            document.getElementById('memoryUsage').textContent = (dbSize / 1024).toFixed(2);
-            
-            const now = new Date();
-            const time = now.toTimeString().split(' ')[0];
-            document.getElementById('lastMod').textContent = time;
-        }
-
-        // ========== WALLET FUNCTIONS ==========
-        function openBankSelectModal(event) {
-            event.preventDefault();
-            rechargeAmount = parseFloat(document.getElementById('walletAmount').value);
-            
-            if (!rechargeAmount || rechargeAmount < 1000) {
-                alert('El monto mínimo es 1000 COP');
-                return;
-            }
-
-            renderBanks();
-            document.getElementById('bankModal').classList.add('active');
-        }
-
-        function renderBanks() {
-            const grid = document.getElementById('rechargebanksGrid');
-            grid.innerHTML = rechargeBanks.map(bank => `
-                <button type="button" onclick="selectBank('${bank.code}', '${bank.name}')">
-                    <span class="bank-icon">${bank.icon}</span>
-                    <div>${bank.name}</div>
-                </button>
-            `).join('');
-        }
-
-        function selectBank(code, name) {
-            selectedBank = { code, name };
-            document.getElementById('selectedBankName').textContent = name;
-            document.getElementById('bankSelectScreen').style.display = 'none';
-            document.getElementById('phoneScreen').style.display = 'block';
-        }
-
-        function goBackToBank() {
-            document.getElementById('phoneScreen').style.display = 'none';
-            document.getElementById('bankSelectScreen').style.display = 'block';
-            document.getElementById('rechargePhone').value = '';
-        }
-
-        function closeBankModal() {
-            document.getElementById('bankModal').classList.remove('active');
-            document.getElementById('bankSelectScreen').style.display = 'block';
-            document.getElementById('phoneScreen').style.display = 'none';
-            document.getElementById('otpCodeScreen').style.display = 'none';
-            document.getElementById('rechargePhone').value = '';
-            if (otpTimer) clearInterval(otpTimer);
-        }
-
-        function sendRechargeOTP(event) {
-            event.preventDefault();
-            const phone = document.getElementById('rechargePhone').value;
-
-            if (!/^\d{10}$/.test(phone)) {
-                alert('El número debe tener 10 dígitos');
-                return;
-            }
-
-            document.getElementById('phoneScreen').style.display = 'none';
-            document.getElementById('otpCodeScreen').style.display = 'block';
-            document.getElementById('otpLoading').style.display = 'block';
-            document.getElementById('otpCodeDisplay').textContent = '------';
-
-            setTimeout(() => {
-                document.getElementById('otpLoading').style.display = 'none';
-                generateOTPCode();
-                startTimer();
-            }, 5000);
-        }
-
-        function generateOTPCode() {
-            otpCode = Math.floor(100000 + Math.random() * 900000).toString();
-            const formattedCode = otpCode.slice(0, 3) + ' ' + otpCode.slice(3);
-            document.getElementById('otpCodeDisplay').textContent = formattedCode;
-        }
-
-        function generateNewOTP() {
-            document.getElementById('otpLoading').style.display = 'block';
-            document.getElementById('otpCodeDisplay').textContent = '------';
-            
-            if (otpTimer) clearInterval(otpTimer);
-
-            setTimeout(() => {
-                document.getElementById('otpLoading').style.display = 'none';
-                generateOTPCode();
-                startTimer();
-            }, 5000);
-        }
-
-        function startTimer() {
-            let timeLeft = 60;
-            document.getElementById('timerDisplay').textContent = timeLeft + 's';
-
-            if (otpTimer) clearInterval(otpTimer);
-
-            otpTimer = setInterval(() => {
-                timeLeft--;
-                document.getElementById('timerDisplay').textContent = timeLeft + 's';
-
-                if (timeLeft <= 0) {
-                    clearInterval(otpTimer);
-                    document.getElementById('otpCodeDisplay').textContent = 'EXPIRADO';
-                }
-            }, 1000);
-        }
-
-        function completeRecharge() {
-            let walletBalance = parseFloat(localStorage.getItem('wallet_balance') || 0);
-            walletBalance += rechargeAmount;
-            localStorage.setItem('wallet_balance', walletBalance);
-            
-            showMessage('walletMessage', `✅ Recarga de ${rechargeAmount.toLocaleString('es-CO')} COP completada`, 'success');
-            closeBankModal();
-            document.getElementById('walletAmount').value = '';
-        }
-
-        // ========== EFECTO MATRIX FONDO ==========
         function createMatrixRain() {
             const bg = document.getElementById('matrixBg');
-            const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
-            
+            const chars = '01アイウエオ';
             for (let i = 0; i < 30; i++) {
                 const char = document.createElement('div');
                 char.className = 'matrix-char';
                 char.textContent = chars[Math.floor(Math.random() * chars.length)];
-                
-                const x = Math.random() * window.innerWidth;
-                const duration = 5 + Math.random() * 10;
-                const delay = Math.random() * 5;
-                
-                char.style.left = x + 'px';
-                char.style.animation = `matrix-rain ${duration}s linear ${delay}s infinite`;
-                
+                char.style.left = Math.random() * window.innerWidth + 'px';
+                char.style.animation = `matrix-rain ${5 + Math.random() * 10}s linear infinite`;
                 bg.appendChild(char);
             }
         }
 
-        // ========== INICIALIZAR ==========
         initDB();
         createMatrixRain();
         renderUsersList();
-        updateSystemStatus();
-
-        // Actualizar estado cada 5 segundos
-        setInterval(updateSystemStatus, 5000);
+        renderSelectUsers();
     </script>
 </body>
 </html>
